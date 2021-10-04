@@ -27,7 +27,7 @@ namespace CheckerApp.Application.Hardwares.Commands.UpdateHardware
                 case HardwareType.Cabinet:
                     ((Cabinet)entity).Position = ((CabinetDto)hardware).Position;
                     ((Cabinet)entity).SerialNumber = ((CabinetDto)hardware).SerialNumber;
-                    ((Cabinet)entity).Constructed = ((CabinetDto)hardware).Constructed;
+                    ((Cabinet)entity).Constructed = ((CabinetDto)hardware).Constructed.Value;
                     ((Cabinet)entity).ConstructedBy = ((CabinetDto)hardware).ConstructedBy;
                     break;
 

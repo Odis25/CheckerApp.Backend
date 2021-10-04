@@ -341,7 +341,7 @@ namespace CheckerApp.Persistence.Services
                     var cabinet = (CabinetDto)device;
                     header = cabinet.Position +
                         $"( зав.№{cabinet.SerialNumber}, " +
-                        $"завершение монтажа {cabinet.Constructed.ToShortDateString()}, " +
+                        $"завершение монтажа {cabinet.Constructed?.ToShortDateString()}, " +
                         $"ответственный - {cabinet.ConstructedBy})";
                     break;
 

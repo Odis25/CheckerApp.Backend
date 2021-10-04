@@ -10,7 +10,7 @@ namespace CheckerApp.Application.Hardwares.Queries
         {
             HardwareType = Domain.Enums.HardwareType.Cabinet;
         }
-        public DateTime Constructed { get; set; }
+        public DateTime? Constructed { get; set; }
         public string ConstructedBy { get; set; }
 
         public new void Mapping(Profile profile)

@@ -1,6 +1,7 @@
 using CheckerApp.Application;
 using CheckerApp.Application.Interfaces;
 using CheckerApp.Persistence;
+using CheckerApp.WebApi.Common.JsonConverters;
 using CheckerApp.WebApi.Common.Middleware;
 using CheckerApp.WebApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -23,7 +24,13 @@ namespace CheckerApp.WebApi
         {
             services.AddPersistence(Configuration);
             services.AddApplication();
-            services.AddControllers();
+            services.AddControllers()
+                .AddJsonOptions(config => 
+                {
+                    config.JsonSerializerOptions.WriteIndented = true;
+                    config.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                    config.JsonSerializerOptions.Converters.Add(new HardwareConverter());
+                });
 
             services.AddCors(options =>
             {

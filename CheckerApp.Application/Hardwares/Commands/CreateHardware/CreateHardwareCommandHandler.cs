@@ -156,7 +156,7 @@ namespace CheckerApp.Application.Hardwares.Commands.CreateHardware
                         IP = dto.IP,
                         MacAddress = dto.MacAddress,
                         Name = dto.Name
-                    })
+                    }).ToHashSet()
                 },
                 HardwareType.InformPanel => new InformPanel
                 {
@@ -184,7 +184,7 @@ namespace CheckerApp.Application.Hardwares.Commands.CreateHardware
                     {
                         IP = dto.IP,
                         MacAddress = dto.MacAddress
-                    })
+                    }).ToHashSet()
                 },
                 HardwareType.APC => new APC 
                 {

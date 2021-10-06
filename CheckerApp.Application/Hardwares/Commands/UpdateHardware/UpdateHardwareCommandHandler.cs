@@ -71,7 +71,7 @@ namespace CheckerApp.Application.Hardwares.Commands.UpdateHardware
                         Name = dto.Name,
                         IP = dto.IP,
                         MacAddress = dto.MacAddress
-                    });
+                    }).ToHashSet();
                     ((NetworkHardware)entity).NetworkDevices = networkDevices;
                     break;
 
@@ -185,7 +185,7 @@ namespace CheckerApp.Application.Hardwares.Commands.UpdateHardware
                     {
                         IP = dto.IP,
                         MacAddress = dto.MacAddress
-                    });
+                    }).ToHashSet();
 
                     ((ARM)entity).NetworkAdapters = adapters;
                     break;

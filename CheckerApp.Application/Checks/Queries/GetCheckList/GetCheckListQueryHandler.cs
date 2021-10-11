@@ -4,7 +4,6 @@ using CheckerApp.Application.Hardwares.Helpers;
 using CheckerApp.Application.Hardwares.Queries;
 using CheckerApp.Application.Softwares.Queries.GetSoftwaresList;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,7 +20,7 @@ namespace CheckerApp.Application.Checks.Queries.GetCheckList
 
         public async Task<CheckListDto> Handle(GetCheckListQuery request, CancellationToken cancellationToken)
         {
-            var contract = await _context.Contracts.FirstOrDefaultAsync(c => c.Id == request.ContractId, cancellationToken);
+            var contract = await _context.Contracts.FindAsync(new object[] { request.ContractId }, cancellationToken);
 
             var vm = new CheckListDto
             {

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using CheckerApp.Application.Interfaces;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,7 +21,7 @@ namespace CheckerApp.Application.Checks.Queries.GetCheckResultFile
         }
         public async Task<CheckResultFileDto> Handle(GetCheckResultFileQuery request, CancellationToken cancellationToken)
         {
-            var contract = await _context.Contracts.FirstOrDefaultAsync(c => c.Id == request.ContractId);
+            var contract = await _context.Contracts.FindAsync(new object[] { request.ContractId }, cancellationToken);
             var hardwarechecks = contract.HardwareList.Select(e => _mapper.Map<HardwareCheckDto>(e.CheckResult));
             var softwarechecks = contract.SoftwareList.Select(e => _mapper.Map<SoftwareCheckDto>(e.CheckResult));
 

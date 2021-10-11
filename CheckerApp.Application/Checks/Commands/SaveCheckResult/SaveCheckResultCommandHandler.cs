@@ -65,7 +65,7 @@ namespace CheckerApp.Application.Checks.Commands.SaveCheckResult
                 }
             }
 
-            var contract = await _context.Contracts.FindAsync(request.CheckResult.Contract.Id, cancellationToken);
+            var contract = await _context.Contracts.FindAsync(new object[] { request.CheckResult.Contract.Id }, cancellationToken);
             contract.HasProtocol = true;
 
             await _context.SaveChangesAsync(cancellationToken);

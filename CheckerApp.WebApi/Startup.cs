@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Net.Http;
 
 namespace CheckerApp.WebApi
 {
@@ -38,7 +40,6 @@ namespace CheckerApp.WebApi
                 {
                     policy.WithOrigins(
                         "https://pnrsu-server.incomsystem.ru:5000",
-                        "https://opnrdiso002.incomsystem.ru:5000",
                         "https://localhost:5000",
                         "https://192.168.110.17:5000")
                     .AllowAnyMethod()
@@ -53,8 +54,7 @@ namespace CheckerApp.WebApi
             })
                 .AddJwtBearer("Bearer", options =>
                 {
-                    options.Authority = "https://opnrdiso002.incomsystem.ru:10001";
-                    //options.Authority = "https://pnrsu-server.incomsystem.ru:10001";
+                    options.Authority = "https://pnrsu-server.incomsystem.ru:10001";
                     options.Audience = "CheckerAPI";
                     options.RequireHttpsMetadata = true;
                     options.TokenValidationParameters.RoleClaimType = "checkerapp_role";
@@ -62,6 +62,9 @@ namespace CheckerApp.WebApi
 
             services.AddSingleton<ICurrentUserService, CurrentUserService>();
             services.AddHttpContextAccessor();
+            services.AddHttpClient("AuthServer", config => 
+                 config.BaseAddress = new Uri("https://pnrsu-server.incomsystem.ru:10001"));
+            services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("AuthServer"));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

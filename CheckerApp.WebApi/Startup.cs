@@ -32,6 +32,7 @@ namespace CheckerApp.WebApi
                     config.JsonSerializerOptions.WriteIndented = true;
                     config.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
                     config.JsonSerializerOptions.Converters.Add(new HardwareConverter());
+                    config.JsonSerializerOptions.Converters.Add(new SoftwareConverter());
                 });
 
             services.AddCors(options =>
@@ -41,6 +42,7 @@ namespace CheckerApp.WebApi
                     policy.WithOrigins(
                         "https://pnrsu-server.incomsystem.ru:5000",
                         "https://localhost:5000",
+                        "https://opnrdiso002.incomsystem.ru:5000",
                         "https://192.168.110.17:5000")
                     .AllowAnyMethod()
                     .AllowAnyHeader();
@@ -55,6 +57,7 @@ namespace CheckerApp.WebApi
                 .AddJwtBearer("Bearer", options =>
                 {
                     options.Authority = "https://pnrsu-server.incomsystem.ru:10001";
+                    //options.Authority = "https://opnrdiso002.incomsystem.ru:10001";
                     options.Audience = "CheckerAPI";
                     options.RequireHttpsMetadata = true;
                     options.TokenValidationParameters.RoleClaimType = "checkerapp_role";
@@ -64,6 +67,7 @@ namespace CheckerApp.WebApi
             services.AddHttpContextAccessor();
             services.AddHttpClient("AuthServer", config => 
                  config.BaseAddress = new Uri("https://pnrsu-server.incomsystem.ru:10001"));
+                 //config.BaseAddress = new Uri("https://opnrdiso002.incomsystem.ru:10001"));
             services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("AuthServer"));
         }
 

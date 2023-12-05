@@ -39,16 +39,12 @@ namespace CheckerApp.WebApi
             {
                 options.AddDefaultPolicy(policy =>
                 {
-                    policy.WithOrigins(
-                        "https://pnrsu-server.incomsystem.ru:5000",
-                        "https://localhost:5000",
-                        "https://opnrdiso002.incomsystem.ru:5000",
-                        "https://192.168.110.17:5000")
+                    policy.WithOrigins(Configuration["Servers:DataServer"])
                     .AllowAnyMethod()
                     .AllowAnyHeader();
                 });
             });
-
+            
             services.AddAuthentication(config =>
             {
                 config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -56,8 +52,7 @@ namespace CheckerApp.WebApi
             })
                 .AddJwtBearer("Bearer", options =>
                 {
-                    options.Authority = "https://pnrsu-server.incomsystem.ru:10001";
-                    //options.Authority = "https://opnrdiso002.incomsystem.ru:10001";
+                    options.Authority = Configuration["Servers:AuthServer"];
                     options.Audience = "CheckerAPI";
                     options.RequireHttpsMetadata = true;
                     options.TokenValidationParameters.RoleClaimType = "checkerapp_role";
@@ -66,8 +61,8 @@ namespace CheckerApp.WebApi
             services.AddSingleton<ICurrentUserService, CurrentUserService>();
             services.AddHttpContextAccessor();
             services.AddHttpClient("AuthServer", config => 
-                 config.BaseAddress = new Uri("https://pnrsu-server.incomsystem.ru:10001"));
-                 //config.BaseAddress = new Uri("https://opnrdiso002.incomsystem.ru:10001"));
+                 config.BaseAddress = new Uri(Configuration["Servers:AuthServer"]));
+
             services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("AuthServer"));
         }
 

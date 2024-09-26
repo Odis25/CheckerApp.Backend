@@ -173,6 +173,8 @@ namespace CheckerApp.Application.Hardwares.Commands.CreateHardware
                     SerialNumber = request.SerialNumber,
                     Monitor = request.Monitor,
                     MonitorSN = request.MonitorSN,
+                    Monitor2 = request.Monitor2,
+                    Monitor2SN = request.Monitor2SN,
                     Keyboard = request.Keyboard,
                     KeyboardSN = request.KeyboardSN,
                     Mouse = request.Mouse,

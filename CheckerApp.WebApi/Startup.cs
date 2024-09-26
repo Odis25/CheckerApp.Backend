@@ -40,6 +40,7 @@ namespace CheckerApp.WebApi
                 options.AddDefaultPolicy(policy =>
                 {
                     policy.WithOrigins(Configuration["Servers:DataServer"])
+                    //.AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader();
                 });

@@ -13,6 +13,8 @@ namespace CheckerApp.Application.Hardwares.Queries
         public string Name { get; set; }
         public string Monitor { get; set; }
         public string MonitorSN { get; set; }
+        public string Monitor2 { get; set; }
+        public string Monitor2SN { get; set; }
         public string Keyboard { get; set; }
         public string KeyboardSN { get; set; }
         public string Mouse { get; set; }

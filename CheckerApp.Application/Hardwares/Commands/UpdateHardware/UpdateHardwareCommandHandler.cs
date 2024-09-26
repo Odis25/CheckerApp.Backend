@@ -173,6 +173,8 @@ namespace CheckerApp.Application.Hardwares.Commands.UpdateHardware
                     ((ARM)entity).SerialNumber = ((ArmDto)hardware).SerialNumber;
                     ((ARM)entity).Monitor = ((ArmDto)hardware).Monitor;
                     ((ARM)entity).MonitorSN = ((ArmDto)hardware).MonitorSN;
+                    ((ARM)entity).Monitor2 = ((ArmDto)hardware).Monitor2;
+                    ((ARM)entity).Monitor2SN = ((ArmDto)hardware).Monitor2SN;
                     ((ARM)entity).Keyboard = ((ArmDto)hardware).Keyboard;
                     ((ARM)entity).KeyboardSN = ((ArmDto)hardware).KeyboardSN;
                     ((ARM)entity).Mouse = ((ArmDto)hardware).Mouse;

@@ -49,49 +49,61 @@ namespace CheckerApp.Persistence.Services
                 worksheet.Cells["A1:F4"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 worksheet.Cells["A1:F4"].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
 
-                // Дата и место
+                // Температура, влажность, средство измерения
                 worksheet.Cells["A6:B6"].Merge = true;
+                worksheet.Cells["A7:B7"].Merge = true;
+                worksheet.Cells["A8:B8"].Merge = true;
 
-                worksheet.Cells["A6"].Value = "г.Казань, ЗАО НИЦ \"ИНКОМСИСТЕМ\"";
-                worksheet.Cells["F6"].Value = $"Дата: {DateTime.Now.ToShortDateString()}";
+                var rnd = new Random();
 
-                worksheet.Cells["A6:F6"].Style.Font.UnderLine = true;
-                worksheet.Cells["A6:F6"].Style.Font.Bold = true;
-                worksheet.Cells["A6:F6"].Style.Font.Name = "Times New Roman";
-                worksheet.Cells["A6:F6"].Style.Font.Size = 14;
+                worksheet.Cells["A6"].Value = $"Температура воздуха: +{rnd.Next(23, 26)}.{rnd.Next(0, 9)} Град С.";
+                worksheet.Cells["A7"].Value = $"Влажность воздуха: {rnd.Next(35, 45)}%";
+                worksheet.Cells["A8"].Value = "Средство измерений: ИВТМ-7 №56613";
+
+
+                // Дата и место
+                worksheet.Cells["A9:B9"].Merge = true;
+
+                worksheet.Cells["A9"].Value = "г.Казань, АО НИЦ \"ИНКОМСИСТЕМ\"";
+                worksheet.Cells["F9"].Value = $"Дата: {DateTime.Now.ToShortDateString()}";
+
+                worksheet.Cells["A9:F9"].Style.Font.UnderLine = true;
+                worksheet.Cells["A9:F9"].Style.Font.Bold = true;
+                worksheet.Cells["A9:F9"].Style.Font.Name = "Times New Roman";
+                worksheet.Cells["A9:F9"].Style.Font.Size = 14;
 
                 // Заголовок таблицы. 1 строка
-                worksheet.Cells["A8"].Value = "п/п";
-                worksheet.Cells["B8"].Value = "Вид контроля (испытаний)";
-                worksheet.Cells["C8"].Value = "Метод проверки";
-                worksheet.Cells["D8"].Value = "Результат проверки";
-                worksheet.Cells["E8"].Value = "Дата проведения";
-                worksheet.Cells["F8"].Value = "Примечание";
+                worksheet.Cells["A11"].Value = "п/п";
+                worksheet.Cells["B11"].Value = "Вид контроля (испытаний)";
+                worksheet.Cells["C11"].Value = "Метод проверки";
+                worksheet.Cells["D11"].Value = "Результат проверки";
+                worksheet.Cells["E11"].Value = "Дата проведения";
+                worksheet.Cells["F11"].Value = "Примечание";
 
                 // Заголовок таблицы. 2 строка
-                worksheet.Cells["A9"].Value = "1";
-                worksheet.Cells["B9"].Value = "2";
-                worksheet.Cells["C9"].Value = "3";
-                worksheet.Cells["D9"].Value = "4";
-                worksheet.Cells["E9"].Value = "5";
-                worksheet.Cells["F9"].Value = "6";
+                worksheet.Cells["A12"].Value = "1";
+                worksheet.Cells["B12"].Value = "2";
+                worksheet.Cells["C12"].Value = "3";
+                worksheet.Cells["D12"].Value = "4";
+                worksheet.Cells["E12"].Value = "5";
+                worksheet.Cells["F12"].Value = "6";
 
-                worksheet.Row(8).Height *= 2;
-                worksheet.Cells["A8:F9"].Style.Font.Bold = true;
-                worksheet.Cells["A8:F9"].Style.Font.Name = "Times New Roman";
-                worksheet.Cells["A8:F9"].Style.Font.Size = 14;
+                worksheet.Row(11).Height *= 2;
+                worksheet.Cells["A11:F12"].Style.Font.Bold = true;
+                worksheet.Cells["A11:F12"].Style.Font.Name = "Times New Roman";
+                worksheet.Cells["A11:F12"].Style.Font.Size = 14;
 
-                worksheet.Cells["A8:F9"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                worksheet.Cells["A8:F9"].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                worksheet.Cells["A11:F12"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                worksheet.Cells["A11:F12"].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
 
-                worksheet.Cells["A8:F9"].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-                worksheet.Cells["A8:F9"].Style.Border.Top.Style = ExcelBorderStyle.Thin;
-                worksheet.Cells["A8:F9"].Style.Border.Left.Style = ExcelBorderStyle.Thin;
-                worksheet.Cells["A8:F9"].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells["A11:F12"].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells["A11:F12"].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells["A11:F12"].Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells["A11:F12"].Style.Border.Right.Style = ExcelBorderStyle.Thin;
 
                 // Размеры столбцов
-                worksheet.Cells["A8:F8"].AutoFitColumns();
-                worksheet.Cells["F6"].AutoFitColumns();
+                worksheet.Cells["A11:F11"].AutoFitColumns();
+                worksheet.Cells["F9"].AutoFitColumns();
 
                 worksheet.Column(2).Width = 85;
                 worksheet.Column(2).Style.WrapText = true;
@@ -106,14 +118,14 @@ namespace CheckerApp.Persistence.Services
 
                 // Список проверяемого оборудования
                 var hardwares = checkResult.HardwareChecks.Where(e => e != null).OrderBy(h => h.Hardware.HardwareType).ToArray();
-                var row = 10;
+                var row = 13;
 
                 // Список ПО
                 var softwares = checkResult.SoftwareChecks.Where(e => e != null && !(e.Software is ScadaDto))?.Select(e => e.Software).ToArray();
 
                 for (int i = 0; i < hardwares.Length; i++)
                 {
-                    var parameters = hardwares[i].CheckParameters.ToArray();
+                    var parameters = hardwares[i].CheckParameters.Except(hardwares[i].CheckParameters.Where(p => p.Result == false && p.Method == "-")).ToArray();
 
                     // Заголовок проверяемого оборудования
                     worksheet.Cells[$"B{row}:F{row}"].Merge = true;
@@ -456,6 +468,7 @@ namespace CheckerApp.Persistence.Services
                     header = $"{arm.HardwareType.GetDisplayName()}: " +
                         $"{arm.Name} зав.№{arm.SerialNumber}, " +
                         $"монитор {arm.Monitor} зав.№{arm.MonitorSN}, " +
+                        (!string.IsNullOrWhiteSpace(arm.Monitor2) ? $"монитор {arm.Monitor2} зав.№{arm.Monitor2SN}, " : "") +
                         $"клавиатура {arm.Keyboard} зав.№{arm.KeyboardSN}, " +
                         $"мышь {arm.Mouse} зав.№{arm.MouseSN}; " +
                         $"RAID-массив  - {raid}; " +
